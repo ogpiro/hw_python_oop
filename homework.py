@@ -1,17 +1,14 @@
+from dataclasses import dataclass
+
+
+@dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
-    def __init__(self,
-                 training_type: str,
-                 duration: float,
-                 distance: float,
-                 speed: float,
-                 calories: float) -> None:
-
-        self.training_type = training_type
-        self.duration = duration
-        self.distance = distance
-        self.speed = speed
-        self.calories = calories
+    training_type: str
+    duration: float
+    distance: float
+    speed: float
+    calories: float
 
     def get_message(self):
         return (f'Тип тренировки: {self.training_type}; '
@@ -22,9 +19,9 @@ class InfoMessage:
 
 
 LEN_STEP_SWM = 1.6
-LEN_STEP = 0.65   # Расстояние, за один шаг или гребок.
+LEN_STEP = 0.65
 M_IN_KM = 1000
-SECOND_IN_HOUR = 3600   # Константа для перевода значений из м в км.
+SECOND_IN_HOUR = 3600
 
 '''Константы для рассчета каллорий.'''
 
@@ -41,16 +38,12 @@ CALORIES_MEAN_SPEED_MULTIPLIER_SWIMM = 1.1
 CALORIES_MEAN_SPEED_SHIFT_SWIMM = 2
 
 
+@dataclass
 class Training:
     """Базовый класс тренировки."""
-    def __init__(self,
-                 action: int,
-                 duration: float,
-                 weight: float,
-                 ) -> None:
-        self.action = action
-        self.duration = duration
-        self.weight = weight
+    action: int
+    duration: float
+    weight: float
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
@@ -78,11 +71,9 @@ class Training:
         ...
 
 
+@dataclass
 class Running(Training):
     """Тренировка: бег."""
-    def __init__(self, action: int, duration: float, weight: float) -> None:
-        super().__init__(action, duration, weight)
-
     def get_spent_calories(self) -> float:
         super().get_spent_calories()
         speed = Running.get_mean_speed(self)
@@ -95,15 +86,10 @@ class Running(Training):
         return 'Бег'
 
 
+@dataclass
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-    def __init__(self,
-                 action: int,
-                 duration: float,
-                 weight: float,
-                 height: int) -> None:
-        super().__init__(action, duration, weight)
-        self.height = height
+    height: int
 
     def get_spent_calories(self) -> float:
         super().get_spent_calories()
@@ -120,17 +106,11 @@ class SportsWalking(Training):
         return 'Спортивная ходьба'
 
 
+@dataclass
 class Swimming(Training):
     """Тренировка: плавание."""
-    def __init__(self,
-                 action: int,
-                 duration: float,
-                 weight: float,
-                 length_pool: int,
-                 count_pool: int) -> None:
-        super().__init__(action, duration, weight)
-        self.length_pool = length_pool
-        self.count_pool = count_pool
+    length_pool: int
+    count_pool: int
 
     def get_distance(self) -> float:
         return self.action * LEN_STEP_SWM / M_IN_KM
