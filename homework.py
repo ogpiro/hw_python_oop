@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import ClassVar, Optional
 
 
 @dataclass
@@ -20,16 +21,25 @@ class InfoMessage:
 
 @dataclass
 class Training:
-    """Базовый класс тренировки."""
+    """Базовый класс тренировки.
+    action: Кол-во шагов и/или гребков.
+    duration: Кол-во часов.
+    weight: Вес в кг.
+    LEN_STEP: Средняя длина шага в метрах.
+    M_IN_KM: Кол-во метров в киллометрах.
+    HOUR_IN_MINS: Кол-во минут в часе.
+    CALORIES_MEAN_SPEED_MULTIPLIER: Коэфф. для рассчетов №1.
+    CALORIES_MEAN_SPEED_SHIFT: Коэфф. для рассчетов №2.
+    """
     action: int
     duration: float
     weight: float
 
-    LEN_STEP = 0.65
-    M_IN_KM = 1000
-    HOUR_IN_MINS = 60
-    CALORIES_MEAN_SPEED_MULTIPLIER = None
-    CALORIES_MEAN_SPEED_SHIFT = None
+    LEN_STEP: ClassVar[float] = 0.65
+    M_IN_KM: ClassVar[int] = 1000
+    HOUR_IN_MINS: ClassVar[int] = 60
+    CALORIES_MEAN_SPEED_MULTIPLIER: ClassVar[Optional[float]] = None
+    CALORIES_MEAN_SPEED_SHIFT: ClassVar[Optional[float]] = None
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
@@ -58,8 +68,8 @@ class Training:
 class Running(Training):
     """Тренировка: бег."""
 
-    CALORIES_MEAN_SPEED_MULTIPLIER = 18
-    CALORIES_MEAN_SPEED_SHIFT = 1.79
+    CALORIES_MEAN_SPEED_MULTIPLIER: ClassVar[float] = 18
+    CALORIES_MEAN_SPEED_SHIFT: ClassVar[float] = 1.79
 
     def get_spent_calories(self) -> float:
         speed = Running.get_mean_speed(self)
@@ -71,13 +81,17 @@ class Running(Training):
 
 @dataclass
 class SportsWalking(Training):
-    """Тренировка: спортивная ходьба."""
+    """Тренировка: спортивная ходьба.
+    height: Рост в см.
+    KM_IN_M: Коэфф. для перевода км в м.
+    SM_IN_M: Кол-во сантиметров в метрах.
+    """
     height: int
 
-    KM_IN_M = 0.278
-    SM_IN_M = 100
-    CALORIES_MEAN_SPEED_MULTIPLIER = 0.035
-    CALORIES_MEAN_SPEED_SHIFT = 0.029
+    KM_IN_M: ClassVar[float] = 0.278
+    SM_IN_M: ClassVar[int] = 100
+    CALORIES_MEAN_SPEED_MULTIPLIER: ClassVar[float] = 0.035
+    CALORIES_MEAN_SPEED_SHIFT: ClassVar[float] = 0.029
 
     def get_spent_calories(self) -> float:
         speed = (SportsWalking.get_mean_speed(self)
@@ -92,13 +106,16 @@ class SportsWalking(Training):
 
 @dataclass
 class Swimming(Training):
-    """Тренировка: плавание."""
+    """Тренировка: плавание.
+    length_pool: Длина бассейна в м.
+    count_pool: Кол-во проплытых бассейнов.
+    """
     length_pool: int
     count_pool: int
 
-    LEN_STEP = 1.38
-    CALORIES_MEAN_SPEED_MULTIPLIER = 1.1
-    CALORIES_MEAN_SPEED_SHIFT = 2
+    LEN_STEP: ClassVar[float] = 1.38
+    CALORIES_MEAN_SPEED_MULTIPLIER: ClassVar[float] = 1.1
+    CALORIES_MEAN_SPEED_SHIFT: ClassVar[int] = 2
 
     def get_distance(self) -> float:
         return self.action * self.LEN_STEP / self.M_IN_KM
@@ -116,14 +133,14 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    classes = {
-        'SWM': Swimming,
-        'RUN': Running,
-        'WLK': SportsWalking
-    }
+    wrkt_dict: dict[str, Training] = {
+                                        'SWM': Swimming,
+                                        'RUN': Running,
+                                        'WLK': SportsWalking
+                                    }
 
-    if workout_type in classes:
-        return classes[workout_type](*data)
+    if workout_type in wrkt_dict:
+        return wrkt_dict[workout_type](*data)
     return None
 
 
