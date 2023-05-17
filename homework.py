@@ -53,7 +53,8 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        ...
+        raise NotImplementedError('Необходимо для каждого вида тренировок '
+                                  'определить метод рассчета каллорий.')
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -134,14 +135,15 @@ class Swimming(Training):
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     wrkt_dict: dict[str, Training] = {
-                                        'SWM': Swimming,
-                                        'RUN': Running,
-                                        'WLK': SportsWalking
-                                    }
+        'SWM': Swimming,
+        'RUN': Running,
+        'WLK': SportsWalking
+    }
 
     if workout_type in wrkt_dict:
         return wrkt_dict[workout_type](*data)
-    return None
+    raise ValueError(f'Неизвестный класс тренировки, '
+                     f'проверте значение {workout_type}')
 
 
 def main(training: Training) -> None:
@@ -152,7 +154,7 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    packages = [
+    packages: list[tuple[str, list[int]]] = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
