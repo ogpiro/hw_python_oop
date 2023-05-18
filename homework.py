@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import ClassVar, Optional
+from typing import Optional
 
 
 @dataclass
@@ -33,11 +33,11 @@ class Training:
     CALORIES_MEAN_SPEED_SHIFT: Коэфф. для рассчетов №2.
     """
 
-    LEN_STEP: ClassVar[float] = 0.65
-    M_IN_KM: ClassVar[int] = 1000
-    HOUR_IN_MINS: ClassVar[int] = 60
-    CALORIES_MEAN_SPEED_MULTIPLIER: ClassVar[Optional[float]] = None
-    CALORIES_MEAN_SPEED_SHIFT: ClassVar[Optional[float]] = None
+    LEN_STEP: float = 0.65
+    M_IN_KM: int = 1000
+    HOUR_IN_MINS: int = 60
+    CALORIES_MEAN_SPEED_MULTIPLIER: Optional[float] = None
+    CALORIES_MEAN_SPEED_SHIFT: Optional[float] = None
 
     def __init__(self,
                  action: int,
@@ -74,8 +74,8 @@ class Training:
 class Running(Training):
     """Тренировка: бег."""
 
-    CALORIES_MEAN_SPEED_MULTIPLIER: ClassVar[float] = 18
-    CALORIES_MEAN_SPEED_SHIFT: ClassVar[float] = 1.79
+    CALORIES_MEAN_SPEED_MULTIPLIER: float = 18
+    CALORIES_MEAN_SPEED_SHIFT: float = 1.79
 
     def __init__(self,
                  action: int,
@@ -100,10 +100,10 @@ class SportsWalking(Training):
     SM_IN_M: Кол-во сантиметров в метрах.
     """
 
-    KM_IN_M: ClassVar[float] = 0.278
-    SM_IN_M: ClassVar[int] = 100
-    CALORIES_MEAN_SPEED_MULTIPLIER: ClassVar[float] = 0.035
-    CALORIES_MEAN_SPEED_SHIFT: ClassVar[float] = 0.029
+    KM_IN_M: float = 0.278
+    SM_IN_M: int = 100
+    CALORIES_MEAN_SPEED_MULTIPLIER: float = 0.035
+    CALORIES_MEAN_SPEED_SHIFT: float = 0.029
 
     def __init__(self,
                  action: int,
@@ -132,9 +132,9 @@ class Swimming(Training):
     count_pool: Кол-во проплытых бассейнов.
     """
 
-    LEN_STEP: ClassVar[float] = 1.38
-    CALORIES_MEAN_SPEED_MULTIPLIER: ClassVar[float] = 1.1
-    CALORIES_MEAN_SPEED_SHIFT: ClassVar[int] = 2
+    LEN_STEP: float = 1.38
+    CALORIES_MEAN_SPEED_MULTIPLIER: float = 1.1
+    CALORIES_MEAN_SPEED_SHIFT: int = 2
 
     def __init__(self,
                  action: int,
