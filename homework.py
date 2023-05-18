@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Union
 
 
 @dataclass
@@ -36,8 +36,8 @@ class Training:
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
     HOUR_IN_MINS: int = 60
-    CALORIES_MEAN_SPEED_MULTIPLIER: Optional[float] = None
-    CALORIES_MEAN_SPEED_SHIFT: Optional[float] = None
+    CALORIES_MEAN_SPEED_MULTIPLIER: Optional[Union[int, float]] = None
+    CALORIES_MEAN_SPEED_SHIFT: Optional[Union[int, float]] = None
 
     def __init__(self,
                  action: int,
@@ -74,8 +74,8 @@ class Training:
 class Running(Training):
     """Тренировка: бег."""
 
-    CALORIES_MEAN_SPEED_MULTIPLIER: float = 18
-    CALORIES_MEAN_SPEED_SHIFT: float = 1.79
+    CALORIES_MEAN_SPEED_MULTIPLIER: Union[int, float] = 18
+    CALORIES_MEAN_SPEED_SHIFT: Union[int, float] = 1.79
 
     def __init__(self,
                  action: int,
@@ -102,8 +102,8 @@ class SportsWalking(Training):
 
     KM_IN_M: float = 0.278
     SM_IN_M: int = 100
-    CALORIES_MEAN_SPEED_MULTIPLIER: float = 0.035
-    CALORIES_MEAN_SPEED_SHIFT: float = 0.029
+    CALORIES_MEAN_SPEED_MULTIPLIER: Union[int, float] = 0.035
+    CALORIES_MEAN_SPEED_SHIFT: Union[int, float] = 0.029
 
     def __init__(self,
                  action: int,
@@ -133,8 +133,8 @@ class Swimming(Training):
     """
 
     LEN_STEP: float = 1.38
-    CALORIES_MEAN_SPEED_MULTIPLIER: float = 1.1
-    CALORIES_MEAN_SPEED_SHIFT: int = 2
+    CALORIES_MEAN_SPEED_MULTIPLIER: Union[int, float] = 1.1
+    CALORIES_MEAN_SPEED_SHIFT: Union[int, float] = 2
 
     def __init__(self,
                  action: int,
