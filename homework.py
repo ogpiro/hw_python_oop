@@ -41,7 +41,6 @@ class Training:
         CALORIES_MEAN_SPEED_MULTIPLIER: Коэфф. для рассчетов №1.
         CALORIES_MEAN_SPEED_SHIFT: Коэфф. для рассчетов №2.
         """
-
         self.action = action
         self.duration = duration
         self.weight = weight
