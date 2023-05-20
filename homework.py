@@ -5,6 +5,7 @@ from typing import Optional, Union
 @dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
+
     training_type: str
     duration: float
     distance: float
@@ -20,7 +21,15 @@ class InfoMessage:
 
 
 class Training:
-    """Базовый класс тренировки."""
+    """
+    Базовый класс тренировки.
+    LEN_STEP: Средняя длина шага в метрах.
+    M_IN_KM: Кол-во метров в киллометрах.
+    HOUR_IN_MINS: Кол-во минут в часе.
+    CALORIES_MEAN_SPEED_MULTIPLIER: Коэфф. для рассчетов №1.
+    CALORIES_MEAN_SPEED_SHIFT: Коэфф. для рассчетов №2.
+    """
+
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
     HOUR_IN_MINS: int = 60
@@ -35,11 +44,6 @@ class Training:
         action: Кол-во шагов и/или гребков.
         duration: Кол-во часов.
         weight: Вес в кг.
-        LEN_STEP: Средняя длина шага в метрах.
-        M_IN_KM: Кол-во метров в киллометрах.
-        HOUR_IN_MINS: Кол-во минут в часе.
-        CALORIES_MEAN_SPEED_MULTIPLIER: Коэфф. для рассчетов №1.
-        CALORIES_MEAN_SPEED_SHIFT: Коэфф. для рассчетов №2.
         """
         self.action = action
         self.duration = duration
@@ -81,7 +85,12 @@ class Running(Training):
 
 
 class SportsWalking(Training):
-    """Тренировка: спортивная ходьба."""
+    """
+    Тренировка: спортивная ходьба.
+    KM_IN_M: Коэфф. для перевода км в м.
+    SM_IN_M: Кол-во сантиметров в метрах.
+    """
+
     KM_IN_M: float = 0.278
     SM_IN_M: int = 100
     CALORIES_MEAN_SPEED_MULTIPLIER: Union[int, float] = 0.035
@@ -92,11 +101,7 @@ class SportsWalking(Training):
                  duration: float,
                  weight: float,
                  height: int) -> None:
-        """
-        height: Рост в см.
-        KM_IN_M: Коэфф. для перевода км в м.
-        SM_IN_M: Кол-во сантиметров в метрах.
-        """
+        """height: Рост в см."""
         super().__init__(action, duration, weight)
         self.height = height
 
@@ -113,6 +118,7 @@ class SportsWalking(Training):
 
 class Swimming(Training):
     """Тренировка: плавание."""
+
     LEN_STEP: float = 1.38
     CALORIES_MEAN_SPEED_MULTIPLIER: Union[int, float] = 1.1
     CALORIES_MEAN_SPEED_SHIFT: Union[int, float] = 2
